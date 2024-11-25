@@ -163,7 +163,6 @@ body {
     z-index: 2; 
     border-radius: 15px 0 0 15px;
     font-family: "Quicksand", sans-serif;
-    user-select: none !important;
 }
 @media (max-width: 768px) {
     .sidebar {

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Animação Circular com Imagens Estáveis</title>
+    <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #3494E6, #EC6EAD);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .image-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            animation: rotateContainer 10s infinite linear;
+        }
+
+        @keyframes rotateContainer {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .image-orbit {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .image-orbit img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            /* Inversão da rotação proporcional */
+            animation: reverseRotation 10s infinite linear;
+        }
+
+        @keyframes reverseRotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);  /* Rotação inversa */
+            }
+        }
+
+        .image-orbit:hover img {
+            transform: scale(1.5); /* Efeito hover para aumentar a imagem */
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container" id="circleContainer"></div>
+
+    <script>
+        const container = document.getElementById('circleContainer');
+        const imageCount = 6;
+        const radius = 200;
+
+        function createImages() {
+            for (let i = 0; i < imageCount; i++) {
+                const orbit = document.createElement('div');
+                orbit.className = 'image-orbit';
+                
+                const img = document.createElement('img');
+                img.src = `img${i + 1}.jpg`;
+                img.alt = `Imagem ${i + 1}`;
+                
+                orbit.appendChild(img);
+                container.appendChild(orbit);
+
+                const angle = (i / imageCount) * (Math.PI * 2);
+                orbit.style.transform = `
+                    translate(-50%, -50%) 
+                    rotate(${angle}rad) 
+                    translateX(${radius}px)
+                    rotate(${-angle}rad)  /* Compensa o ângulo inicial */
+                `;
+            }
+        }
+
+        createImages();
+    </script>
+</body>
+</html>

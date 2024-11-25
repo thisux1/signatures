@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signatures</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        body, html {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            width: 2000px;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #3494E6, #EC6EAD);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .image-container {
+            position: relative;
+            margin: 0;
+            width: 600px;
+            height: 600px;
+            animation: rotateContainer 10s infinite linear;
+        }
+
+        @keyframes rotateContainer {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .image-orbit {
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform-origin: 50% 50%; /* Origem fixa no centro */
+    animation: rotateOrbit 5s infinite linear; /* Rotação em círculo */
+        }
+        img:hover{
+            transform: scale(1.07);
+        }
+        .image-orbit img {
+            width: 500px;
+            margin-top: 100px ;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            /* Inversão da rotação proporcional */
+            animation: reverseRotation 10s infinite linear;
+        }
+
+        @keyframes reverseRotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);  /* Rotação inversa */
+            }
+        }
+
+        .image-orbit:hover img {
+            transform: scale(1.5); /* Efeito hover para aumentar a imagem */
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+    <div class="botton-area">
+        <input type="checkbox" role="button" aria-label="Display the menu" class="menu">
+    </div>
+</div>
+</header>
+<div id="overlay" class="overlay"></div>
+<div id="sidebar" class="sidebar">
+<h2>MBB Incentives Signatures</h2>
+<div class="divider"></div>
+<ul class="number">
+     <li><a href="mbb\Email-Signature-Denys.png">Dennys</a></li>
+     <li><a href="mbb\Email-Signature-Michael.png">Michael</a></li>
+     <li><a href="mbb\Email-Signature-Mike.png">Mike</a></li>
+</ul>
+<br>
+<h2>Berry Distribuition Signatures</h2>
+<div class="divider"></div>
+<ul>
+    <li><a href="berry\Dmitriy.jpg">Dmitriy</a></li>
+    <li><a href="berry\Josh.jpg">Josh</a></li>
+    <li><a href="berry\Mike.jpg">Mike</a></li>
+</ul>
+</div>
+</div>
+<div class="image-container" id="circleContainer"></div>
+
+<script>
+    const container = document.getElementById('circleContainer');
+    const imageCount = 6;
+    const radius = 350;
+
+    function createImages() {
+        for (let i = 0; i < imageCount; i++) {
+            const orbit = document.createElement('div');
+            orbit.className = 'image-orbit';
+            
+            const img = document.createElement('img');
+            img.src = `img${i + 1}.jpg`;
+            img.alt = `Imagem ${i + 1}`;
+            
+            orbit.appendChild(img);
+            container.appendChild(orbit);
+
+            const angle = (i / imageCount) * (Math.PI * 2);
+            orbit.style.transform = `
+                translate(-50%, -50%) 
+                rotate(${angle}rad) 
+                translateX(${radius}px)
+                rotate(${-angle}rad)  /* Compensa o ângulo inicial */
+            `;
+        }
+    }
+
+    createImages();
+</script>
+<script>
+const toggle = document.querySelector('.menu');
+const overlay = document.getElementById('overlay');
+const sidebar = document.getElementById('sidebar');
+
+toggle.addEventListener('change', () => {
+if (toggle.checked) {
+    overlay.classList.add('active');
+    sidebar.style.transform = 'translateX(0)';
+} else {
+    overlay.classList.remove('active');
+    sidebar.style.transform = 'translateX(100%)';
+}
+});
+
+// Para fechar o sidebar ao clicar no overlay
+overlay.addEventListener('click', () => {
+toggle.checked = false;
+overlay.classList.remove('active');
+sidebar.style.transform = 'translateX(100%)';
+});
+</script>
+</body>
+</html>
